@@ -7,7 +7,10 @@ import java.util.Date;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
-
+/*
+	Os códigos aqui apresentados são parte do curso Testes unitários em JAVA, replicados aqui com o objetivo de aperfeiçoamento
+	do conhecimento sobre testes unitários.
+ */
 public class LocacaoService {
 	
 	public Locacao alugarFilme(Usuario usuario, Filme filme) {

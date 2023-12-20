@@ -7,7 +7,10 @@ import static java.util.Calendar.YEAR;
 
 import java.util.Calendar;
 import java.util.Date;
-
+/*
+	Os códigos aqui apresentados são parte do curso Testes unitários em JAVA, replicados aqui com o objetivo de aperfeiçoamento
+	do conhecimento sobre testes unitários.
+ */
 public class DataUtils {
 	
 	/**
