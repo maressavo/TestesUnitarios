@@ -49,10 +49,10 @@ public class LocacaoService {
 		//verificacao
 
 		//System.out.println(locacao.getValor());
-		Assert.assertTrue(locacao.getValor() == 4.0);
+		Assert.assertTrue(locacao.getValor() == 7.85);
 		//System.out.println(locacao.getDataLocacao());
 		Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
 		//System.out.println(locacao.getDataRetorno());
-		Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataRetorno(), new Date()));
+		Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)));
 	}
 }
