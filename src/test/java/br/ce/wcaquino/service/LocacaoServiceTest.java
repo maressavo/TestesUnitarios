@@ -1,3 +1,5 @@
+package br.ce.wcaquino.service;
+
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
@@ -9,7 +11,6 @@ import org.junit.Test;
 import java.util.Date;
 
 public class LocacaoServiceTest {
-    //public static void main(String[] args) {
     @Test
     public void test(){
         //cenario

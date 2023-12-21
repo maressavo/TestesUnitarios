@@ -13,7 +13,6 @@ import br.ce.wcaquino.entidades.Usuario;
 	do conhecimento sobre testes unitários.
  */
 public class LocacaoService {
-	
 	public Locacao alugarFilme(Usuario usuario, Filme filme) {
 		Locacao locacao = new Locacao();
 		locacao.setFilme(filme);
