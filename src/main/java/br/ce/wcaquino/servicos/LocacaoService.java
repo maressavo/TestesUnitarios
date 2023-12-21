@@ -7,6 +7,8 @@ import java.util.Date;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
+import br.ce.wcaquino.utils.DataUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 /*
@@ -46,8 +48,11 @@ public class LocacaoService {
 
 		//verificacao
 
-		System.out.println(locacao.getValor());
-		System.out.println(locacao.getDataLocacao());
-		System.out.println(locacao.getDataRetorno());
+		//System.out.println(locacao.getValor());
+		Assert.assertTrue(locacao.getValor() == 4.0);
+		//System.out.println(locacao.getDataLocacao());
+		Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
+		//System.out.println(locacao.getDataRetorno());
+		Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataRetorno(), new Date()));
 	}
 }
