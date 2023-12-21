@@ -7,6 +7,8 @@ import java.util.Date;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
+import org.junit.Test;
+
 /*
 	Os códigos aqui apresentados são parte do curso Testes unitários em JAVA, replicados aqui com o objetivo de aperfeiçoamento
 	do conhecimento sobre testes unitários.
@@ -31,7 +33,9 @@ public class LocacaoService {
 		return locacao;
 	}
 
-	public static void main(String[] args) {
+	//public static void main(String[] args) {
+	@Test
+	public void test(){
 		//cenario
 		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Joana");
