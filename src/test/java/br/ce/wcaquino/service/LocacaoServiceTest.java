@@ -16,7 +16,10 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -40,10 +43,11 @@ public class LocacaoServiceTest {
     public void testeLocacao() throws Exception {
         //cenario
         Usuario usuario = new Usuario("Joana");
-        Filme filme = new Filme("A volta dos que não foram", 2, 7.85);
+        //Filme filme = new Filme("A volta dos que não foram", 2, 7.85);
+        List<Filme> filmes = Arrays.asList(new Filme("A volta dos que não foram", 2, 7.85));
 
         //acao
-        Locacao locacao = service.alugarFilme(usuario,filme);
+        Locacao locacao = service.alugarFilme(usuario,filmes);
 
         //verificacao
         /*Assert.assertTrue(locacao.getValor() == 7.85);
@@ -57,24 +61,24 @@ public class LocacaoServiceTest {
     @Test(expected = FilmeSemEstoqueException.class)
     public void testLocacao_filmeSemEstoque() throws Exception{
         //cenario
-        Usuario usuario = new Usuario("Usuario 1");
-        Filme filme = new Filme("Filme 2", 0, 4.0);
+        Usuario usuario = new Usuario("Joana");
+        //Filme filme = new Filme("A volta dos que não foram", 2, 7.85);
+        List<Filme> filmes = Arrays.asList(new Filme("A volta dos que não foram", 0, 7.85));
 
         //acao
-        service.alugarFilme(usuario, filme);
+        service.alugarFilme(usuario, filmes);
     }
 
     @Test
     public void testLocacao_usuarioVazio() throws FilmeSemEstoqueException {
         //cenario
-        Filme filme = new Filme("Filme 2", 1, 4.0);
-
+        List<Filme> filmes = Arrays.asList(new Filme("A volta dos que não foram", 0, 7.85));
         //acao
         try {
-            service.alugarFilme(null, filme);
+            service.alugarFilme(null, filmes);
             Assert.fail();
         } catch (LocadoraException e) {
-            assertThat(e.getMessage(), is("Usuario vazio"));
+            assertThat(e.getMessage(), is("Usuário vazio"));
         }
     }
 
