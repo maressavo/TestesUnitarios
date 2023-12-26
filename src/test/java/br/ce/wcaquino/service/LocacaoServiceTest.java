@@ -9,17 +9,12 @@ import br.ce.wcaquino.servicos.LocacaoService;
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import br.ce.wcaquino.utils.DataUtils;
+import org.junit.*;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -155,5 +150,21 @@ public class LocacaoServiceTest {
         resultado = service.alugarFilme(usuario, filmes);
 
         assertThat(resultado.getValor(), is(59.25));
+    }
+
+    @Test
+    @Ignore
+    public void naoDeveDevolverFilmesAosDomingos() throws FilmeSemEstoqueException, LocadoraException {//Se o filme for alugado aos sábados a devolução é na segunda-feira.
+        Usuario usuario = new Usuario("Mariana Ruibarbo");
+
+        List<Filme> filmes = Arrays.asList(
+                new Filme("A volta dos que não foram", 5, 18.00)
+        );
+
+        Locacao retorno = service.alugarFilme(usuario, filmes);
+
+        boolean eSegunda = DataUtils.verificarDiaSemana(retorno.getDataRetorno(), Calendar.MONDAY);
+        Assert.assertTrue(eSegunda);
+
     }
 }
