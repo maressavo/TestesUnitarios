@@ -28,6 +28,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class LocacaoServiceTest {
 
     private LocacaoService service;
+    private Locacao resultado;
 
     @Rule
     public ErrorCollector error = new ErrorCollector();
@@ -40,7 +41,7 @@ public class LocacaoServiceTest {
         service = new LocacaoService();
     }
     @Test
-    public void testeLocacao() throws Exception {
+    public void deveAlugarFilmeComSucesso() throws Exception {
         //cenario
         Usuario usuario = new Usuario("Joana");
         //Filme filme = new Filme("A volta dos que não foram", 2, 7.85);
@@ -59,7 +60,7 @@ public class LocacaoServiceTest {
     }
 
     @Test(expected = FilmeSemEstoqueException.class)
-    public void testLocacao_filmeSemEstoque() throws Exception{
+    public void naoDeveAlugarFilmeSemEstoque() throws Exception{
         //cenario
         Usuario usuario = new Usuario("Joana");
         //Filme filme = new Filme("A volta dos que não foram", 2, 7.85);
@@ -70,7 +71,7 @@ public class LocacaoServiceTest {
     }
 
     @Test
-    public void testLocacao_usuarioVazio() throws FilmeSemEstoqueException {
+    public void naoDeveAlugarFilmeSemUsuario () throws FilmeSemEstoqueException {
         //cenario
         List<Filme> filmes = Arrays.asList(new Filme("A volta dos que não foram", 0, 7.85));
         //acao
@@ -83,7 +84,7 @@ public class LocacaoServiceTest {
     }
 
     @Test
-    public void testLocacao_FilmeVazio() throws FilmeSemEstoqueException, LocadoraException{
+    public void naoDeveAlugarFilmeSemFilme() throws FilmeSemEstoqueException, LocadoraException{
         //cenario
         Usuario usuario = new Usuario("Usuario 1");
 
@@ -92,5 +93,67 @@ public class LocacaoServiceTest {
 
         //acao
         service.alugarFilme(usuario, null);
+    }
+
+    @Test
+    public void deveDescontar25PctNo3Filme() throws FilmeSemEstoqueException, LocadoraException {
+        Usuario usuario = new Usuario("Joana");
+
+        List<Filme> filmes = Arrays.asList(
+                new Filme("A volta dos que não foram", 5, 18.00),
+                new Filme("As tranças da vovó careca", 2, 10.00),
+                new Filme("Esqueceram de mim 7", 7, 20.00)
+        );
+
+        resultado = service.alugarFilme(usuario, filmes);
+
+        assertThat(resultado.getValor(), is(43.00));
+    }
+    @Test
+    public void deveDescontar50PctNo4Filme() throws FilmeSemEstoqueException, LocadoraException {
+        Usuario usuario = new Usuario("Joana");
+
+        List<Filme> filmes = Arrays.asList(
+                new Filme("A volta dos que não foram", 5, 18.00),
+                new Filme("As tranças da vovó careca", 2, 10.00),
+                new Filme("Esqueceram de mim 7", 7, 20.00),
+                new Filme("Operação Feliz Natal", 8, 25.00)
+        );
+
+        resultado = service.alugarFilme(usuario, filmes);
+
+        assertThat(resultado.getValor(), is(55.50));
+    }
+
+    @Test
+    public void deveDescontar75PctNo5Filme() throws FilmeSemEstoqueException, LocadoraException {
+        Usuario usuario = new Usuario("Joana");
+
+        List<Filme> filmes = Arrays.asList(
+                new Filme("A volta dos que não foram", 5, 18.00),
+                new Filme("As tranças da vovó careca", 2, 10.00),
+                new Filme("Esqueceram de mim 7", 7, 20.00),
+                new Filme("Operação Feliz Natal", 8, 25.00),
+                new Filme("Uma História de Natal Natalina", 2, 15.00)
+        );
+        resultado = service.alugarFilme(usuario, filmes);
+
+        assertThat(resultado.getValor(), is(59.25));
+    }
+    @Test
+    public void deveDescontar100PctNo6Filme() throws FilmeSemEstoqueException, LocadoraException {
+        Usuario usuario = new Usuario("Joana");
+
+        List<Filme> filmes = Arrays.asList(
+                new Filme("A volta dos que não foram", 5, 18.00),
+                new Filme("As tranças da vovó careca", 2, 10.00),
+                new Filme("Esqueceram de mim 7", 7, 20.00),
+                new Filme("Operação Feliz Natal", 8, 25.00),
+                new Filme("Uma História de Natal Natalina", 3, 15.00),
+                new Filme("12 Vésperas de Natal", 10, 12.00)
+        );
+        resultado = service.alugarFilme(usuario, filmes);
+
+        assertThat(resultado.getValor(), is(59.25));
     }
 }
