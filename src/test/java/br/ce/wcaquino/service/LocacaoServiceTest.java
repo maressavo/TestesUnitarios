@@ -9,8 +9,7 @@ import br.ce.wcaquino.matchers.DiaSemanaMatcher;
 import br.ce.wcaquino.matchers.MatchersProprios;
 import br.ce.wcaquino.servicos.LocacaoService;
 
-import static br.ce.wcaquino.matchers.MatchersProprios.caiEm;
-import static br.ce.wcaquino.matchers.MatchersProprios.caiEmUmaSegunda;
+import static br.ce.wcaquino.matchers.MatchersProprios.*;
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
 
@@ -53,8 +52,8 @@ public class LocacaoServiceTest {
         Locacao locacao = service.alugarFilme(usuario,filmes);
 
         error.checkThat(locacao.getValor(), is(equalTo(7.85)));
-        error.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
-        error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
+        error.checkThat(locacao.getDataLocacao(), ehHoje());
+        error.checkThat(locacao.getDataRetorno(), ehHojeComDiferencaDias(1));
     }
 
     @Test(expected = FilmeSemEstoqueException.class)
