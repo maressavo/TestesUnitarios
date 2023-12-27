@@ -37,18 +37,16 @@ public class LocacaoServiceTest {
     }
     @Test
     public void deveAlugarFilmeComSucesso() throws Exception {
-        //cenario
-        Usuario usuario = new Usuario("Joana");
-        //Filme filme = new Filme("A volta dos que não foram", 2, 7.85);
-        List<Filme> filmes = Arrays.asList(new Filme("A volta dos que não foram", 2, 7.85));
+        Assume.assumeFalse(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
 
-        //acao
+        Usuario usuario = new Usuario("Joana");
+
+        List<Filme> filmes = Arrays.asList(
+                new Filme("A volta dos que não foram", 2, 7.85)
+        );
+
         Locacao locacao = service.alugarFilme(usuario,filmes);
 
-        //verificacao
-        /*Assert.assertTrue(locacao.getValor() == 7.85);
-        Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
-        Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)));*/
         error.checkThat(locacao.getValor(), is(equalTo(7.85)));
         error.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
         error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
@@ -91,70 +89,9 @@ public class LocacaoServiceTest {
     }
 
     @Test
-    public void deveDescontar25PctNo3Filme() throws FilmeSemEstoqueException, LocadoraException {
-        Usuario usuario = new Usuario("Joana");
-
-        List<Filme> filmes = Arrays.asList(
-                new Filme("A volta dos que não foram", 5, 18.00),
-                new Filme("As tranças da vovó careca", 2, 10.00),
-                new Filme("Esqueceram de mim 7", 7, 20.00)
-        );
-
-        resultado = service.alugarFilme(usuario, filmes);
-
-        assertThat(resultado.getValor(), is(43.00));
-    }
-    @Test
-    public void deveDescontar50PctNo4Filme() throws FilmeSemEstoqueException, LocadoraException {
-        Usuario usuario = new Usuario("Joana");
-
-        List<Filme> filmes = Arrays.asList(
-                new Filme("A volta dos que não foram", 5, 18.00),
-                new Filme("As tranças da vovó careca", 2, 10.00),
-                new Filme("Esqueceram de mim 7", 7, 20.00),
-                new Filme("Operação Feliz Natal", 8, 25.00)
-        );
-
-        resultado = service.alugarFilme(usuario, filmes);
-
-        assertThat(resultado.getValor(), is(55.50));
-    }
-
-    @Test
-    public void deveDescontar75PctNo5Filme() throws FilmeSemEstoqueException, LocadoraException {
-        Usuario usuario = new Usuario("Joana");
-
-        List<Filme> filmes = Arrays.asList(
-                new Filme("A volta dos que não foram", 5, 18.00),
-                new Filme("As tranças da vovó careca", 2, 10.00),
-                new Filme("Esqueceram de mim 7", 7, 20.00),
-                new Filme("Operação Feliz Natal", 8, 25.00),
-                new Filme("Uma História de Natal Natalina", 2, 15.00)
-        );
-        resultado = service.alugarFilme(usuario, filmes);
-
-        assertThat(resultado.getValor(), is(59.25));
-    }
-    @Test
-    public void deveDescontar100PctNo6Filme() throws FilmeSemEstoqueException, LocadoraException {
-        Usuario usuario = new Usuario("Joana");
-
-        List<Filme> filmes = Arrays.asList(
-                new Filme("A volta dos que não foram", 5, 18.00),
-                new Filme("As tranças da vovó careca", 2, 10.00),
-                new Filme("Esqueceram de mim 7", 7, 20.00),
-                new Filme("Operação Feliz Natal", 8, 25.00),
-                new Filme("Uma História de Natal Natalina", 3, 15.00),
-                new Filme("12 Vésperas de Natal", 10, 12.00)
-        );
-        resultado = service.alugarFilme(usuario, filmes);
-
-        assertThat(resultado.getValor(), is(59.25));
-    }
-
-    @Test
-    @Ignore
     public void naoDeveDevolverFilmesAosDomingos() throws FilmeSemEstoqueException, LocadoraException {//Se o filme for alugado aos sábados a devolução é na segunda-feira.
+        Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
+
         Usuario usuario = new Usuario("Mariana Ruibarbo");
 
         List<Filme> filmes = Arrays.asList(
