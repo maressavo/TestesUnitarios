@@ -1,11 +1,10 @@
 package br.ce.wcaquino.service;
 
-import br.ce.wcaquino.entidades.Filme;
-import br.ce.wcaquino.entidades.Locacao;
-import br.ce.wcaquino.entidades.Usuario;
+import br.ce.wcaquino.entity.Filme;
+import br.ce.wcaquino.entity.Locacao;
+import br.ce.wcaquino.entity.Usuario;
 import br.ce.wcaquino.exceptions.FilmeSemEstoqueException;
 import br.ce.wcaquino.exceptions.LocadoraException;
-import br.ce.wcaquino.servicos.LocacaoService;
 import br.ce.wcaquino.utils.DataUtils;
 import org.junit.*;
 import org.junit.rules.ErrorCollector;
@@ -16,6 +15,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static br.ce.wcaquino.builders.FilmeBuilder.umFilme;
+import static br.ce.wcaquino.builders.FilmeBuilder.umFilmeSemEstoque;
+import static br.ce.wcaquino.builders.UsuarioBuilder.umUsuario;
 import static br.ce.wcaquino.matchers.MatchersProprios.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -24,7 +26,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class LocacaoServiceTest {
 
     private LocacaoService service;
-    private Locacao resultado;
 
     @Rule
     public ErrorCollector error = new ErrorCollector();
@@ -40,11 +41,9 @@ public class LocacaoServiceTest {
     public void deveAlugarFilmeComSucesso() throws Exception {
         Assume.assumeFalse(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
 
-        Usuario usuario = new Usuario("Joana");
+        Usuario usuario = umUsuario().agora();
 
-        List<Filme> filmes = Arrays.asList(
-                new Filme("A volta dos que não foram", 2, 7.85)
-        );
+        List<Filme> filmes = Arrays.asList(umFilme().comValor(7.85).agora());
 
         Locacao locacao = service.alugarFilme(usuario,filmes);
 
@@ -55,20 +54,17 @@ public class LocacaoServiceTest {
 
     @Test(expected = FilmeSemEstoqueException.class)
     public void naoDeveAlugarFilmeSemEstoque() throws Exception{
-        //cenario
-        Usuario usuario = new Usuario("Joana");
-        //Filme filme = new Filme("A volta dos que não foram", 2, 7.85);
-        List<Filme> filmes = Arrays.asList(new Filme("A volta dos que não foram", 0, 7.85));
+        Usuario usuario = umUsuario().agora();
 
-        //acao
+        List<Filme> filmes = Arrays.asList(umFilmeSemEstoque().agora());
+
         service.alugarFilme(usuario, filmes);
     }
 
     @Test
     public void naoDeveAlugarFilmeSemUsuario () throws FilmeSemEstoqueException {
-        //cenario
-        List<Filme> filmes = Arrays.asList(new Filme("A volta dos que não foram", 0, 7.85));
-        //acao
+        List<Filme> filmes = Arrays.asList(umFilme().agora());
+
         try {
             service.alugarFilme(null, filmes);
             Assert.fail();
@@ -79,13 +75,11 @@ public class LocacaoServiceTest {
 
     @Test
     public void naoDeveAlugarFilmeSemFilme() throws FilmeSemEstoqueException, LocadoraException{
-        //cenario
-        Usuario usuario = new Usuario("Usuario 1");
+        Usuario usuario = umUsuario().agora();
 
         exception.expect(LocadoraException.class);
         exception.expectMessage("Filme vazio");
 
-        //acao
         service.alugarFilme(usuario, null);
     }
 
@@ -93,16 +87,11 @@ public class LocacaoServiceTest {
     public void naoDeveDevolverFilmesAosDomingos() throws FilmeSemEstoqueException, LocadoraException {//Se o filme for alugado aos sábados a devolução é na segunda-feira.
         Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
 
-        Usuario usuario = new Usuario("Mariana Ruibarbo");
+        Usuario usuario = umUsuario().agora();
 
-        List<Filme> filmes = Arrays.asList(
-                new Filme("A volta dos que não foram", 5, 18.00)
-        );
+        List<Filme> filmes = Arrays.asList(umFilme().agora());
 
         Locacao retorno = service.alugarFilme(usuario, filmes);
-
-        boolean eSegunda = DataUtils.verificarDiaSemana(retorno.getDataRetorno(), Calendar.MONDAY);
-        Assert.assertTrue(eSegunda);
 
         assertThat(retorno.getDataRetorno(), caiEmUmaSegunda());
     }

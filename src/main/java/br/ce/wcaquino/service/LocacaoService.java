@@ -1,4 +1,4 @@
-package br.ce.wcaquino.servicos;
+package br.ce.wcaquino.service;
 
 import static br.ce.wcaquino.utils.DataUtils.adicionarDias;
 
@@ -6,9 +6,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import br.ce.wcaquino.entidades.Filme;
-import br.ce.wcaquino.entidades.Locacao;
-import br.ce.wcaquino.entidades.Usuario;
+import br.ce.wcaquino.entity.Filme;
+import br.ce.wcaquino.entity.Locacao;
+import br.ce.wcaquino.entity.Usuario;
 import br.ce.wcaquino.exceptions.FilmeSemEstoqueException;
 import br.ce.wcaquino.exceptions.LocadoraException;
 import br.ce.wcaquino.utils.DataUtils;

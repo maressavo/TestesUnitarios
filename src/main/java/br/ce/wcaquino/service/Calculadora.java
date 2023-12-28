@@ -1,4 +1,4 @@
-package br.ce.wcaquino.servicos;
+package br.ce.wcaquino.service;
 
 import br.ce.wcaquino.exceptions.NaoPodeDividirPorZeroException;
 
