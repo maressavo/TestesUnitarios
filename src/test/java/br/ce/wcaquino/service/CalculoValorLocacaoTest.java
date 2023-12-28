@@ -53,7 +53,7 @@ public class CalculoValorLocacaoTest {
                 {Arrays.asList(filme1, filme2, filme3, filme4, filme5, filme6), 59.25, "6 Filmes: 100%"},
                 {Arrays.asList(filme1, filme2, filme3, filme4, filme5, filme6, filme7), 73.25, "7 Filmes: Sem Descontos"}
         });
-    }//73.25
+    }
 
     @Test
     public void deveCalcularValorLocacaoConsiderandoDescontos() throws FilmeSemEstoqueException, LocadoraException {
