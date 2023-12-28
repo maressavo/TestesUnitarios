@@ -6,6 +6,7 @@ import br.ce.wcaquino.entity.Usuario;
 import br.ce.wcaquino.exceptions.FilmeSemEstoqueException;
 import br.ce.wcaquino.exceptions.LocadoraException;
 import br.ce.wcaquino.utils.DataUtils;
+import buildermaster.BuilderMaster;
 import org.junit.*;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
@@ -94,5 +95,9 @@ public class LocacaoServiceTest {
         Locacao retorno = service.alugarFilme(usuario, filmes);
 
         assertThat(retorno.getDataRetorno(), caiEmUmaSegunda());
+    }
+
+    public static void main(String[] args) {
+        new BuilderMaster().gerarCodigoClasse(Locacao.class);
     }
 }
