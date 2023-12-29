@@ -1,5 +1,7 @@
 package br.ce.wcaquino.service;
 
+import br.ce.wcaquino.daos.LocacaoDAO;
+import br.ce.wcaquino.daos.LocacaoDAOFalse;
 import br.ce.wcaquino.entity.Filme;
 import br.ce.wcaquino.entity.Locacao;
 import br.ce.wcaquino.entity.Usuario;
@@ -33,6 +35,8 @@ public class CalculoValorLocacaoTest {
     @Before
     public void setup() {
         service = new LocacaoService();
+        LocacaoDAO dao = new LocacaoDAOFalse();
+        service.setLocacaoDAO(dao);
     }
 
     private static Filme filme1 = umFilme().agora();
