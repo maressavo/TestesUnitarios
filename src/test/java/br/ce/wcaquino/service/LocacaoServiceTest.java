@@ -5,7 +5,12 @@ import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.exceptions.FilmeSemEstoqueException;
 import br.ce.wcaquino.exceptions.LocadoraException;
+import br.ce.wcaquino.matchers.DiaSemanaMatcher;
+import br.ce.wcaquino.matchers.MatchersProprios;
 import br.ce.wcaquino.servicos.LocacaoService;
+
+import static br.ce.wcaquino.matchers.MatchersProprios.caiEm;
+import static br.ce.wcaquino.matchers.MatchersProprios.caiEmUmaSegunda;
 import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
 import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
 
@@ -103,5 +108,6 @@ public class LocacaoServiceTest {
         boolean eSegunda = DataUtils.verificarDiaSemana(retorno.getDataRetorno(), Calendar.MONDAY);
         Assert.assertTrue(eSegunda);
 
+        assertThat(retorno.getDataRetorno(), caiEmUmaSegunda());
     }
 }
